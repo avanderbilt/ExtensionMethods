@@ -49,3 +49,4 @@ Temporary Items
 /packages
 /Aav.ExtensionMethods/bin
 /Aav.ExtensionMethods.Tests/bin
+*.dic

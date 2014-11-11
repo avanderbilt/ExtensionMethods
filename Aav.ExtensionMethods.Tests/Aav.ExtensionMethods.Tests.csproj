@@ -50,6 +50,7 @@
     <Compile Include="BooleanExtensionTests.cs" />
     <Compile Include="DateTimeExtensionTests.cs" />
     <Compile Include="EnumerableExtensionTests.cs" />
+    <Compile Include="EnumerationExtensionTests.cs" />
     <Compile Include="GuidExtensionTests.cs" />
     <Compile Include="IntegerExtensionTests.cs" />
     <Compile Include="ObjectExtensionTests.cs" />

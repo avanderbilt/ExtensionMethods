@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Aav.ExtensionMethods
@@ -13,13 +14,40 @@ namespace Aav.ExtensionMethods
     public static class StringExtensions
     {
         /// <summary>
+        /// "Cleanses" a phone number of certain non-numeric characters.
+        /// </summary>
+        /// <param name="value">The target of the extension.</param>
+        /// <returns>
+        /// The target, cleansed of certain non-numeric characters.
+        /// </returns>
+        public static long? CleansePhoneNumber(this string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+
+            const string pattern = @"[\)\(\-\ \.\,_]";
+
+            var regex = new Regex(pattern);
+
+            var cleanNumberAsString = regex.Replace(value, string.Empty);
+
+            long cleanNumber;
+
+            if (!long.TryParse(cleanNumberAsString, out cleanNumber))
+                return null;
+
+            return cleanNumber;
+        }
+
+        /// <summary>
         /// Converts the target of the extension from a camel-case string to 
         /// a string of separate, capitalized words.
         /// </summary>
         /// <param name="value">The target of the extension.</param>
         /// <returns>
         /// The target, with any camel-case words parsed out into separate,
-        /// capitalized words.</returns>
+        /// capitalized words.
+        /// </returns>
         public static string SplitCamelCase(this string value)
         {
             return string.IsNullOrWhiteSpace(value)
@@ -65,6 +93,29 @@ namespace Aav.ExtensionMethods
         public static Type ToType(this string value)
         {
             return string.IsNullOrWhiteSpace(value) ? null : Type.GetType(value);
+        }
+
+        /// <summary>
+        /// Repeats the specified value.
+        /// </summary>
+        /// <param name="value">The target of the extension.</param>
+        /// <param name="count">
+        /// The number of times to repeat the target.
+        /// </param>
+        /// <returns>
+        /// The target, repeated the specified number of times.
+        /// </returns>
+        public static string Repeat(this string value, uint count)
+        {
+            if (string.IsNullOrWhiteSpace(value) || count == 0)
+                return null;
+
+            var sb = new StringBuilder(value, value.Length * (int)count);
+
+            for (var i = 1; i < count; i++)
+                sb.Append(value);
+
+            return sb.ToString();
         }
 
         /// <summary>
